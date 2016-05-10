@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lirain.scada.dao.UserinfoMapper" >
+  <resultMap id="UserinfoResultMap" type="com.lirain.scada.pojo.Userinfo" >
+    <id column="id_base" property="id_base" />
+    <result column="name" property="name" />
+    <result column="address" property="address" />
+    <result column="userno" property="userno" />
+    <result column="userphone" property="userphone" />
+	<result column="useropendate" property="useropendate" />
+    <result column="meterno" property="meterno" />
+    <result column="metermodelno" property="metermodelno" />
+    <result column="assetno" property="assetno" />
+    <result column="parano" property="parano" />
+    <result column="priceno" property="priceno" />
+    <result column="userstate" property="userstate" />
+    <result column="operatorno" property="operatorno" />
+    <result column="usergroup" property="usergroup" />
+    
+    <result column="ttyno" property="ttyno" />
+    <result column="ttyid" property="ttyid" />
+    <result column="statecode" property="statecode" />
+    <result column="ttytype" property="ttytype" />
+    <result column="ttycpy" property="ttycpy" />
+    
+    <result column="celltype" property="celltype" />
+    <result column="idname" property="idname" />
+    <result column="metrytpe" property="metrytpe" />
+    <result column="communicateset" property="communicateset" />
+    
+    <result column="pn" property="pn" />
+    <result column="dybb" property="dybb" />
+    <result column="dlbb" property="dlbb" />
+    
+    <result column="groupid" property="groupid" />
+    <result column="groupname" property="groupname" />
+    
+    <result column="id" property="id" />
+    <result column="pId" property="pId" />
+    <result column="open" property="open" />
+    <result column="xflag" property="xflag" />
+    <result column="isParent" property="isParent" />
+  </resultMap>
+  
+  <!--sql id="Base_Column_List" >
+    id, name, xflag
+  </sql-->
+  
+    <select id="selectByPrimaryKey" resultMap="UserinfoResultMap" parameterType="java.lang.Integer" >
+    select * from t_userinfo
+    where id_base = #{id}
+  </select>
+  
+  <select id="getAll" resultMap="UserinfoResultMap">
+  	SELECT * FROM t_userinfo
+  </select>
+  
+  <select id="getAllResident" resultMap="UserinfoResultMap">
+  	SELECT * FROM t_userinfo where xflag=2
+  </select>
+  
+  <select id="getMaxidofpid" parameterType="Integer" resultType="Integer">
+  	select max(id) from t_userinfo  where pId=#{pId}
+  </select>
+  
+  <select id="getUserdesbyuserno" parameterType="String" resultMap="UserinfoResultMap">
+  	select * from t_userinfo  where userno=#{userno}
+  </select>
+  
+  <select id="getUserinfoByAddress" parameterType="String" resultMap="UserinfoResultMap">
+  	select * from t_userinfo  where address=#{address}
+  </select>
+  
+  <insert id="addUserinfo" parameterType="com.lirain.scada.pojo.Userinfo">
+  	insert into t_userinfo(name, id, pId, userno, xflag, groupid, groupname) 
+  	values(#{name}, #{id}, #{pId}, #{userno}, #{xflag}, #{groupid}, #{groupname})
+  </insert>
+  
+  <update id="updateTtyinfobyusrno" parameterType="com.lirain.scada.pojo.Userinfo">
+  	update t_userinfo set 
+  	name=#{name}, address=#{address}, statecode=#{statecode}, ttyno=#{ttyno}, 
+  	ttycpy=#{ttycpy}, ttytype=#{ttytype}, ttyid=#{ttyid}
+  	where userno=#{userno}
+  </update>
+  
+  <update id="updateCpyinfobyusrno" parameterType="com.lirain.scada.pojo.Userinfo">
+  	update t_userinfo set 
+  	name=#{name}, address=#{address}, celltype=#{celltype}, idname=#{idname}, 
+  	metrytpe=#{metrytpe}, communicateset=#{communicateset}, pn=#{pn},dybb=#{dybb}, dlbb=#{dlbb}
+  	where userno=#{userno}
+  </update>
+  
+  <update id="updatePersoninfobyusrno" parameterType="com.lirain.scada.pojo.Userinfo">
+  	update t_userinfo set 
+  	name=#{name}, address=#{address}, userphone=#{userphone}, 
+  	useropendate=#{useropendate}, meterno=#{meterno}, metermodelno=#{metermodelno}, 
+  	assetno=#{assetno}, parano=#{parano}, priceno=#{priceno}, userstate=#{userstate}, 
+  	operatorno=#{operatorno}, groupname=#{groupname}, groupid=#{groupid}
+  	where userno=#{userno}
+  </update>
+  
+  <delete id="delUserbyuserno" parameterType="String">
+  	delete from t_userinfo
+    where userno = #{userno}
+  </delete>
+  
+  <delete id="delUserbypId" parameterType="Integer">
+  	delete from t_userinfo
+    where pId = #{pId}
+  </delete>
+  
+  <select id="getUsernoByStcodeAndAddress" parameterType="com.lirain.scada.pojo.Userinfo" resultMap="UserinfoResultMap">
+  	select * from t_userinfo  where statecode=#{statecode} and address=#{address}
+  </select>
+  
+  <select id="getUsernoByAddress" parameterType="com.lirain.scada.pojo.Userinfo" resultMap="UserinfoResultMap">
+  	select * from t_userinfo  where address=#{address}
+  </select>
+  
+  <select id="getUserinfobyPid" parameterType="com.lirain.scada.pojo.Userinfo" resultMap="UserinfoResultMap">
+  	select * from t_userinfo  where pId=#{pId}
+  </select>
+ 
+</mapper>
